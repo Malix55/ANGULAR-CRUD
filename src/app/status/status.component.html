@@ -1,0 +1,73 @@
+
+          <div class="container">
+            <div class="row">
+              <div class="col-md-6">
+                <h1 class="display-3 text-primary text-center mt-5">Status</h1>
+                <!-- <a class="btn btn-secondary mt-4 mb-4" routerLink="/editStatus" >Edit Status</a> -->
+                <form  [formGroup]="addStatusForm" (ngSubmit)="saveStatus()">
+                    
+                  <div>
+                    <label for="name">Asset Id:</label>
+                    <select  formControlName="AssetId" class="form-control">
+                      <option *ngFor="let d of AssetsInfo" value={{d.Id}}>{{d.Name}}</option>
+                    </select>
+                  </div>
+          
+                  <div>
+                    <label for="type">Status</label>
+                    <input formControlName="Status"  type="text"  class="form-control">
+                  </div>
+
+                  <div>
+                    <label for="type">Date:</label>
+                    <input formControlName="Date" type="date"  class="form-control">
+                  </div>
+          
+                  <div>
+                    <input type="submit" value="Submit" class="mt-2"/>
+                  </div>
+          
+                </form>
+              </div>
+              <div class="col-md-6 mt-5" [ngStyle]="{'height': '700px', 'width': '50%' , 'overflow' : 'scroll'}">
+                <table  class="table table-striped">
+                  <thead>
+                    <tr>
+                      <!-- <th>Asset Id</th> -->
+                      <th>Status</th>
+                      <th>Date</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let status of StatusInfo">
+                      <!-- <td>{{status.AssetId}}</td> -->
+                      <td>{{status.Status}}</td>
+                      <td>{{status.Date}}</td>
+                      <td>
+                        <button class="btn btn-secondary btn-sm mr-2" (click)="isModalOpen = true" (click)="getStatusById(status.Id)">Edit</button>
+                        <button class="btn btn-danger btn-sm" (click)="statusDelete(status.Id)">Delete</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+
+          <div *ngIf="isModalOpen" class="modal-overlay" id="modal-overlay">
+            <div class="modal-content" id="modal-content">
+              <button (click)="isModalOpen = false">X</button>
+              <form>
+                <label for="statusInput">Status:</label>
+                <input type="text" id="statusInput" name="statusInput" [(ngModel)]="Status">
+                <label for="dateInput">Date:</label>
+                <input type="text" id="dateInput" name="dateInput" [(ngModel)]="Date">
+                <div>
+                  <input type="submit" value="Submit" class="mt-2" (click)="editStatus(selectedStatus.Id)"/>
+                </div>
+              </form>
+            </div>
+          </div>
+          

@@ -1,0 +1,78 @@
+
+          <div class="container">
+            <div class="row">
+              <div class="col-md-6">
+                <h1 class="display-3 text-primary text-center mt-5">Data</h1>
+                <!-- <a class="btn btn-secondary mt-4 mb-4" routerLink="/editData" >Edit Data</a> -->
+                <form  [formGroup]="addDataForm" (ngSubmit)="saveDatas()">
+                    
+                  <div>
+                    <label for="name">Asset Id:</label>
+                    <select  formControlName="AssetId" class="form-control">
+                      <option *ngFor="let d of AssetsInfo" value={{d.Id}}>{{d.Name}}</option>
+                    </select>
+                  </div>
+          
+                  <div>
+                    <label for="location">Metric Name:</label>
+                    <input formControlName="MetricName" type="text" class="form-control">
+                  </div>
+          
+                  <div>
+                    <label for="type">Metric Value:</label>
+                    <input formControlName="MetricValue" type="text"  class="form-control">
+                  </div>
+
+                  <div>
+                    <label for="type">Description:</label>
+                    <textarea formControlName="Description" type="text"  class="form-control"></textarea>
+                  </div>
+          
+                  <div>
+                    <input type="submit" value="Submit" class="mt-2"/>
+                  </div>
+          
+                </form>
+
+              </div>
+              <div class="col-md-6 mt-5" [ngStyle]="{'height': '700px', 'width': '70%' , 'overflow' : 'scroll'}">
+                <table  class="table table-striped">
+                  <thead>
+                    <tr>
+                      <!-- <th>Asset Id</th> -->
+                      <th>MetricName</th>
+                      <th>Metric Value</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let data of DataInfo">
+                      <!-- <td>{{data.AssetId}}</td> -->
+                      <td>{{data.MetricName}}</td>
+                      <td>{{data.MetricValue}}</td>
+                      <td>
+                        <button class="btn btn-secondary btn-sm mr-2" (click)="isModalOpen = true" (click)="getDataById(data.Id)">Edit</button>
+                        <button class="btn btn-danger btn-sm" (click)="dataDelete(data.Id)">Delete</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="isModalOpen" class="modal-overlay" id="modal-overlay">
+            <div class="modal-content" id="modal-content">
+              <button (click)="isModalOpen = false">X</button>
+              <form  >
+                <label for="MetricName">MetricName:</label>
+                <input  type="text" name="MetricName" id="metricName" [(ngModel)]="MetricName" value="{{MetricName}}">
+        
+                <label for="MetricValue">MetricValue:</label>
+                <input  type="text" name="MetricValue" id="metricValue" [(ngModel)]="MetricValue"  value="{{MetricValue}}">
+        
+                <div>
+                  <input type="submit" value="Submit" class="mt-2" (click)="editData(selectedData.Id)"/>
+                </div>
+              </form>
+            </div>
+          </div>
